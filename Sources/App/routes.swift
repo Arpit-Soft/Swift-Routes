@@ -26,7 +26,6 @@ func routes(_ app: Application) throws {
         guard let genre = req.parameters.get("genre"), let year = req.parameters.get("year") else {
             throw Abort(.badRequest)
         }
-        
         return "The genre was \(genre) and the year was \(year)"
     }
     
@@ -43,7 +42,10 @@ func routes(_ app: Application) throws {
     // http://127.0.0.1:8080/search?keyword=toys&page=12
     app.get("search") { req -> String in
         
-        
-        return "All Case route"
+        guard let keyword = req.query["keyword"] as String?,
+              let page = req.query["page"] as Int? else {
+            throw Abort(.badRequest)
+        }
+        return "Keyword is = \(keyword) and page is = \(page)"
     }
 }
