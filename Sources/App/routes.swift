@@ -48,4 +48,28 @@ func routes(_ app: Application) throws {
         }
         return "Keyword is = \(keyword) and page is = \(page)"
     }
+    
+    //Route Groups
+    
+    // /users/12
+    // GET /users
+    // POST /users
+    
+    // GET http://127.0.0.1:8080/users
+    let users = app.grouped("users")
+    users.get { req in
+        return "Get users"
+    }
+    // POST http://127.0.0.1:8080/users
+    users.post { req in
+        return "Post users"
+    }
+    // http://127.0.0.1:8080/users/23
+    users.get(":userId") { req -> String in
+        guard let userId = req.parameters.get("userId") else {
+            throw Abort(.badRequest)
+        }
+        
+        return "User ID is = \(userId)"
+    }
 }
